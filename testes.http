@@ -40,3 +40,48 @@ GET http://localhost:8080/api/lancamentos/1
 
 ### Passo F: Deletar um Lançamento pelo ID (Insira um ID em aberto para testar)
 DELETE http://localhost:8080/api/lancamentos/1
+
+### Passo G: Listar Todas as Contas Cadastradas (Nubank e Caixa)
+GET http://localhost:8080/api/contas
+
+### Passo H: Listar Apenas as Categorias Principais (Habitação)
+GET http://localhost:8080/api/categorias/principais
+
+### Passo I: Listar as Subcategorias da categoria Habitação (ID 1)
+GET http://localhost:8080/api/categorias/pai/1/subcategorias
+
+### Passo J: Consultar Extrato Real da Conta Nubank (ID 1)
+GET http://localhost:8080/api/movimentacoes/conta/1
+
+### Passo K: Cadastrar Receita Futura EM ABERTO (Salário)
+POST http://localhost:8080/api/lancamentos
+Content-Type: application/json
+
+{
+  "descricao": "Previsão de Recebimento de Salário",
+  "valor": 2500.00,
+  "tipoLancamento": "RECEITA",
+  "dataVencimento": "2026-11-05",
+  "pago": false,
+  "usuario": { "id": 1 },
+  "conta": { "id": 1 },
+  "categoria": { "id": 2 }
+}
+
+### Passo L: Cadastrar Despesa Futura EM ABERTO (Internet)
+POST http://localhost:8080/api/lancamentos
+Content-Type: application/json
+
+{
+  "descricao": "Fatura de Internet Novembro",
+  "valor": 500.00,
+  "tipoLancamento": "DESPESA",
+  "dataVencimento": "2026-11-10",
+  "pago": false,
+  "usuario": { "id": 1 },
+  "conta": { "id": 1 },
+  "categoria": { "id": 2 }
+}
+
+### Passo M: Consultar os Dados Consolidados do Dashboard do Usuário 1
+GET http://localhost:8080/api/dashboard/usuario/1
