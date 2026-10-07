@@ -40,4 +40,33 @@ public class LancamentoController {
         Lancamento lancamentoBaixado = lancamentoService.baixarLancamento(id);
         return ResponseEntity.ok(lancamentoBaixado);
     }
+
+        /**
+     * ENDPOINT: Lista todos os lançamentos cadastrados no sistema.
+     * Rota: GET http://localhost:8080/api/lancamentos
+     */
+    @org.springframework.web.bind.annotation.GetMapping
+    public ResponseEntity<java.util.List<Lancamento>> buscarTodos() {
+        return ResponseEntity.ok(lancamentoService.listarTodos());
+    }
+
+    /**
+     * ENDPOINT: Busca os detalhes de um lançamento específico pelo ID.
+     * Rota: GET http://localhost:8080/api/lancamentos/{id}
+     */
+    @org.springframework.web.bind.annotation.GetMapping("/{id}")
+    public ResponseEntity<Lancamento> buscarPorId(@org.springframework.web.bind.annotation.PathVariable Long id) {
+        return ResponseEntity.ok(lancamentoService.buscarPorId(id));
+    }
+
+    /**
+     * ENDPOINT: Remove um lançamento do sistema (desde que não esteja pago).
+     * Rota: DELETE http://localhost:8080/api/lancamentos/{id}
+     */
+    @org.springframework.web.bind.annotation.DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@org.springframework.web.bind.annotation.PathVariable Long id) {
+        lancamentoService.deletar(id);
+        return ResponseEntity.noContent().build(); // Retorna o status HTTP 204 (No Content) indicando sucesso
+    }
+
 }

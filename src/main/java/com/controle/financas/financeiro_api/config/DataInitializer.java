@@ -58,6 +58,16 @@ public class DataInitializer implements CommandLineRunner {
         conta.setJavaMoeda(real);
         conta = contaRepository.save(conta);
 
+         // NOVO: Injeta Conta Poupança Destino (ID 2)
+        Conta conta2 = new Conta();
+        conta2.setNome("Caixa Poupança");
+        conta2.setTipoConta("Poupança");
+        conta2.setSaldoInicial(new BigDecimal("200.00"));
+        conta2.setSaldoAtual(new BigDecimal("200.00")); // Começa com 200 reais
+        conta2.setUsuario(usuario);
+        conta2.setJavaMoeda(real);
+        contaRepository.save(conta2);
+
         // 4. Injeta Categoria Pai (ID 1) e Subcategoria (ID 2)
         Categoria categoriaPai = new Categoria();
         categoriaPai.setNome("Habitação");

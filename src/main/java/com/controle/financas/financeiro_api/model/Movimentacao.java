@@ -58,12 +58,20 @@ public class Movimentacao {
     private Lancamento lancamento;
 
     /**
+     * RELACIONAMENTO: Muitas movimentações podem ter nascido de uma TRANSFERÊNCIA entre contas.
+     * Opcional (nullable = true), pois o movimento pode vir de um Lancamento tradicional.
+     */
+    @ManyToOne
+    @JoinColumn(name = "transferencia_id", nullable = true)
+    private Transferencia transferencia;
+
+    /**
      * RELACIONAMENTO: Muitas movimentações possuem uma CATEGORIA (Subcategoria).
      * Essencial para puxar gráficos de extrato por categoria de forma ultra rápida.
      * Obrigatório (nullable = false) para garantir consistência nos relatórios.
      */
     @ManyToOne
-    @JoinColumn(name = "categoria_id", nullable = false)
+    @JoinColumn(name = "categoria_id", nullable = true) // Alterado para true para aceitar transferências!
     private Categoria categoria;
 
     /**

@@ -107,4 +107,33 @@ public class LancamentoService {
 
         return lancamentoAtualizado;
     }
+
+        /**
+     * REGRA DE NEGÓCIO: Retorna a lista de todos os lançamentos cadastrados.
+     */
+    public java.util.List<Lancamento> listarTodos() {
+        return lancamentoRepository.findAll();
+    }
+
+    /**
+     * REGRA DE NEGÓCIO: Busca os detalhes de um lançamento específico pelo ID.
+     */
+    public Lancamento buscarPorId(Long id) {
+        return lancamentoRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Lançamento não encontrado com o ID: " + id));
+    }
+
+    /**
+     * REGRA DE NEGÓCIO: Deleta um lançamento do sistema.
+     */
+    @Transactional
+    public void deletar(Long id) {
+        Lancamento lancamento = buscarPorId(id);
+        // Validação Comercial: Impede deletar uma conta que já foi paga para não furar o caixa retroativamente
+        if (lancamento.isPago()) {
+            throw new IllegalStateException("Não é permitido excluir um lançamento que já foi baixado/pago.");
+        }
+        lancamentoRepository.delete(lancamento);
+    }
+
 }

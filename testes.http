@@ -15,3 +15,28 @@ Content-Type: application/json
 
 ### Passo B: Efetuar a Baixa da Conta de Luz criada (Deve ser o ID 3 se o H2 reiniciou zerado)
 PUT http://localhost:8080/api/lancamentos/1/baixar
+
+### Passo C: Realizar Transferência de Carteira (ID 1 para ID 2)
+POST http://localhost:8080/api/transferencias
+Content-Type: application/json
+
+{
+  "descricao": "Reserva Mensal para Poupança",
+  "valor": 300.00,
+  "dataTransferencia": "2026-10-07",
+  "usuario": { "id": 1 },
+  "contaOrigem": { "id": 1 },
+  "contaDestino": { "id": 2 }
+}
+
+###
+
+
+### Passo D: Buscar Todos os Lançamentos do Sistema
+GET http://localhost:8080/api/lancamentos
+
+### Passo E: Buscar Lançamento Específico pelo ID
+GET http://localhost:8080/api/lancamentos/1
+
+### Passo F: Deletar um Lançamento pelo ID (Insira um ID em aberto para testar)
+DELETE http://localhost:8080/api/lancamentos/1
