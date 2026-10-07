@@ -81,4 +81,30 @@ public class LancamentoService {
 
         movimentacaoRepository.save(movimento);
     }
+    /**
+     * REGRA DE NEGÓCIO: Liquida/Baixa um lançamento que estava em aberto.
+     */
+    @Transactional
+    public Lancamento baixarLancamento(Long id) {
+        // 1. Busca o lançamento pelo ID
+        Lancamento lancamento = lancamentoRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Lançamento não encontrado com o ID: " + id));
+
+        // 2. Validação: Impede baixar uma conta que já foi paga anteriormente
+        if (lancamento.isPago()) {
+            throw new IllegalStateException("Este lançamento já encontra-se baixado/pago.");
+        }
+
+        // 3. Atualiza o status do título para o momento atual
+        lancamento.setPago(true);
+        lancamento.setDataPagamento(java.time.LocalDate.now());
+
+        // 4. Salva a alteração do título
+        Lancamento lancamentoAtualizado = lancamentoRepository.save(lancamento);
+
+        // 5. Dispara o impacto financeiro (reutilizando a lógica que criamos de saldo e extrato)
+        efetuarBaixa(lancamentoAtualizado);
+
+        return lancamentoAtualizado;
+    }
 }

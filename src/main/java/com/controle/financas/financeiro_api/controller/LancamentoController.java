@@ -30,4 +30,14 @@ public class LancamentoController {
         // Retorna o objeto salvo com o status HTTP 201 (Created)
         return ResponseEntity.status(HttpStatus.CREATED).body(novoLancamento);
     }
+
+     /**
+     * ENDPOINT: Efetua a baixa/liquidação de um lançamento em aberto.
+     * Rota: PUT http://localhost:8080/api/lancamentos/{id}/baixar
+     */
+    @org.springframework.web.bind.annotation.PutMapping("/{id}/baixar")
+    public ResponseEntity<Lancamento> baixar(@org.springframework.web.bind.annotation.PathVariable Long id) {
+        Lancamento lancamentoBaixado = lancamentoService.baixarLancamento(id);
+        return ResponseEntity.ok(lancamentoBaixado);
+    }
 }

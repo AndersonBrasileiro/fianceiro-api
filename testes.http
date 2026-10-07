@@ -1,3 +1,4 @@
+### Passo A: Criar a Conta de Luz "Em Aberto" (Não mexe no saldo)
 POST http://localhost:8080/api/lancamentos
 Content-Type: application/json
 
@@ -11,3 +12,6 @@ Content-Type: application/json
   "conta": { "id": 1 },
   "categoria": { "id": 2 }
 }
+
+### Passo B: Efetuar a Baixa da Conta de Luz criada (Deve ser o ID 3 se o H2 reiniciou zerado)
+PUT http://localhost:8080/api/lancamentos/1/baixar
