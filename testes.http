@@ -1,0 +1,13 @@
+POST http://localhost:8080/api/lancamentos
+Content-Type: application/json
+
+{
+  "descricao": "Conta de Luz de Outubro",
+  "valor": 150.00,
+  "tipoLancamento": "DESPESA",
+  "dataVencimento": "2026-10-20",
+  "pago": false,
+  "usuario": { "id": 1 },
+  "conta": { "id": 1 },
+  "categoria": { "id": 2 }
+}
