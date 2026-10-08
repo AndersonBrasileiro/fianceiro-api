@@ -8,7 +8,7 @@ Content-Type: application/json
   "tipoLancamento": "DESPESA",
   "dataVencimento": "2026-10-20",
   "pago": false,
-  "usuario": { "id": 1 },
+  "usuario": { "id": 2 },
   "conta": { "id": 1 },
   "categoria": { "id": 2 }
 }
@@ -34,6 +34,7 @@ Content-Type: application/json
 
 ### Passo D: Buscar Todos os Lançamentos do Sistema
 GET http://localhost:8080/api/lancamentos
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNlaXJvLWFwaSIsInN1YiI6ImNvbWVyY2lhbEBzaXN0ZW1hLmNvbSIsImV4cCI6MTc5MTQ3NjYwNH0.QjbYiH6M-3RS0ZjTxi0Yp84HJZbVSqRL4DKCyZLWhwY
 
 ### Passo E: Buscar Lançamento Específico pelo ID
 GET http://localhost:8080/api/lancamentos/1
@@ -85,3 +86,22 @@ Content-Type: application/json
 
 ### Passo M: Consultar os Dados Consolidados do Dashboard do Usuário 1
 GET http://localhost:8080/api/dashboard/usuario/1
+
+### Passo N: Registrar um Usuário Profissional (Senha Criptografada)
+POST http://localhost:8080/api/auth/registrar
+Content-Type: application/json
+
+{
+  "nome": "Usuario Comercial",
+  "email": "comercial@sistema.com",
+  "senha": "senhaSegura123"
+}
+
+### Passo O: Efetuar Login para Capturar o Token JWT
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "comercial@sistema.com",
+  "senha": "senhaSegura123"
+}
