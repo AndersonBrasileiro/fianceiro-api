@@ -1,6 +1,7 @@
 ### Passo A: Criar a Conta de Luz "Em Aberto" (Não mexe no saldo)
 POST http://localhost:8080/api/lancamentos
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNlaXJvLWFwaSIsInN1YiI6ImNvbWVyY2lhbEBzaXN0ZW1hLmNvbSIsImV4cCI6MTc5MTUxMTA5MH0.fPepmjHA4BWUHWWZHyWdUAV0tLnnDJ_HP0J_KqCzPPk
 
 {
   "descricao": "Conta de Luz de Outubro",
@@ -8,7 +9,6 @@ Content-Type: application/json
   "tipoLancamento": "DESPESA",
   "dataVencimento": "2026-10-20",
   "pago": false,
-  "usuario": { "id": 2 },
   "conta": { "id": 1 },
   "categoria": { "id": 2 }
 }
