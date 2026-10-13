@@ -19,7 +19,7 @@ PUT http://localhost:8080/api/lancamentos/1/baixar
 ### Passo C: Realizar Transferência de Carteira (ID 1 para ID 2)
 POST http://localhost:8080/api/transferencias
 Content-Type: application/json
-Authorization: Bearer INDIQUE_AQUI_O_TOKEN_JWT_COPIADA_DO_LOGIN
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNlaXJvLWFwaSIsInN1YiI6ImNvbWVyY2lhbEBzaXN0ZW1hLmNvbSIsImV4cCI6MTc5MTkyODAyNH0.lWH2X3-rRJxJ-8RNjvKQhtfQtJUMV86p1ptKw5KPvv4
 
 {
   "descricao": "Reserva Mensal para Poupança",
@@ -121,3 +121,32 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNla
   "saldoInicial": 750.00,
   "javaMoeda": { "id": 1 }
 }
+
+
+### Passo Q: Cadastrar Centro de Custo (Estritamente DESPESA)
+POST http://localhost:8080/api/centros-custo
+Content-Type: application/json
+Authorization: Bearer INSERIR_AQUI_O_SEU_TOKEN_DO_LOGIN
+
+{
+  "nome": "Setor Operacional / Logística",
+  "tipo": "DESPESA"
+}
+
+### Passo R: Cadastrar Centro de Receita (Estritamente RECEITA)
+POST http://localhost:8080/api/centros-custo
+Content-Type: application/json
+Authorization: Bearer INSERIR_AQUI_O_SEU_TOKEN_DO_LOGIN
+
+{
+  "nome": "Contratos Comerciais / Vendas",
+  "tipo": "RECEITA"
+}
+
+### Passo S: Testar Dropdown da Tela de Contas a Pagar (Deve trazer apenas DESPESA)
+GET http://localhost:8080/api/centros-custo/filtrar?fluxo=DESPESA
+Authorization: Bearer INSERIR_AQUI_O_SEU_TOKEN_DO_LOGIN
+
+### Passo T: Testar Dropdown da Tela de Contas a Receber (Deve trazer apenas RECEITA)
+GET http://localhost:8080/api/centros-custo/filtrar?fluxo=RECEITA
+Authorization: Bearer INSERIR_AQUI_O_SEU_TOKEN_DO_LOGIN
