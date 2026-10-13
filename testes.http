@@ -1,7 +1,7 @@
 ### Passo A: Criar a Conta de Luz "Em Aberto" (Não mexe no saldo)
 POST http://localhost:8080/api/lancamentos
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNlaXJvLWFwaSIsInN1YiI6ImNvbWVyY2lhbEBzaXN0ZW1hLmNvbSIsImV4cCI6MTc5MTUxMjcxN30.mf52BJQ2Dez0I24QyJ-NZmLPrt1QRl_7mueCSg2bUQM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNlaXJvLWFwaSIsInN1YiI6ImNvbWVyY2lhbEBzaXN0ZW1hLmNvbSIsImV4cCI6MTc5MTkzMTE3Mn0.e3taU978a0iaeyBB-O0b9_SrLk1xJ7ecPvZgTTbIIao
 
 {
   "descricao": "Conta de Luz de Outubro",
@@ -9,8 +9,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNla
   "tipoLancamento": "DESPESA",
   "dataVencimento": "2026-10-20",
   "pago": false,
-  "conta": { "id": 1 },
-  "categoria": { "id": 2 }
+  "conta": { "id": 3 },
+  "categoria": { "id": 3 }
 }
 
 ### Passo B: Efetuar a Baixa da Conta de Luz criada (Deve ser o ID 3 se o H2 reiniciou zerado)
@@ -113,7 +113,7 @@ Content-Type: application/json
 ### Passo P: Cadastrar uma Conta Nova para o Usuário Logado (Dono do Token)
 POST http://localhost:8080/api/contas
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNlaXJvLWFwaSIsInN1YiI6ImNvbWVyY2lhbEBzaXN0ZW1hLmNvbSIsImV4cCI6MTc5MTUxMjcxN30.mf52BJQ2Dez0I24QyJ-NZmLPrt1QRl_7mueCSg2bUQM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNlaXJvLWFwaSIsInN1YiI6ImNvbWVyY2lhbEBzaXN0ZW1hLmNvbSIsImV4cCI6MTc5MTkzMTE3Mn0.e3taU978a0iaeyBB-O0b9_SrLk1xJ7ecPvZgTTbIIao
 
 {
   "nome": "Banco Inter do Usu 2",
@@ -126,7 +126,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNla
 ### Passo Q: Cadastrar Centro de Custo (Estritamente DESPESA)
 POST http://localhost:8080/api/centros-custo
 Content-Type: application/json
-Authorization: Bearer INSERIR_AQUI_O_SEU_TOKEN_DO_LOGIN
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNlaXJvLWFwaSIsInN1YiI6ImNvbWVyY2lhbEBzaXN0ZW1hLmNvbSIsImV4cCI6MTc5MTkyOTA0NH0.94ShJ3k7sYPV_Ie32Hx7mWg6dFwTjYYFK2dVd3auD_w
 
 {
   "nome": "Setor Operacional / Logística",
@@ -136,7 +136,7 @@ Authorization: Bearer INSERIR_AQUI_O_SEU_TOKEN_DO_LOGIN
 ### Passo R: Cadastrar Centro de Receita (Estritamente RECEITA)
 POST http://localhost:8080/api/centros-custo
 Content-Type: application/json
-Authorization: Bearer INSERIR_AQUI_O_SEU_TOKEN_DO_LOGIN
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNlaXJvLWFwaSIsInN1YiI6ImNvbWVyY2lhbEBzaXN0ZW1hLmNvbSIsImV4cCI6MTc5MTkyOTA0NH0.94ShJ3k7sYPV_Ie32Hx7mWg6dFwTjYYFK2dVd3auD_w
 
 {
   "nome": "Contratos Comerciais / Vendas",
@@ -145,8 +145,17 @@ Authorization: Bearer INSERIR_AQUI_O_SEU_TOKEN_DO_LOGIN
 
 ### Passo S: Testar Dropdown da Tela de Contas a Pagar (Deve trazer apenas DESPESA)
 GET http://localhost:8080/api/centros-custo/filtrar?fluxo=DESPESA
-Authorization: Bearer INSERIR_AQUI_O_SEU_TOKEN_DO_LOGIN
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNlaXJvLWFwaSIsInN1YiI6ImNvbWVyY2lhbEBzaXN0ZW1hLmNvbSIsImV4cCI6MTc5MTkyOTA0NH0.94ShJ3k7sYPV_Ie32Hx7mWg6dFwTjYYFK2dVd3auD_w
 
 ### Passo T: Testar Dropdown da Tela de Contas a Receber (Deve trazer apenas RECEITA)
 GET http://localhost:8080/api/centros-custo/filtrar?fluxo=RECEITA
-Authorization: Bearer INSERIR_AQUI_O_SEU_TOKEN_DO_LOGIN
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNlaXJvLWFwaSIsInN1YiI6ImNvbWVyY2lhbEBzaXN0ZW1hLmNvbSIsImV4cCI6MTc5MTkyOTA0NH0.94ShJ3k7sYPV_Ie32Hx7mWg6dFwTjYYFK2dVd3auD_w
+
+### Passo U: Criar Categoria Própria para o Usuário 2
+POST http://localhost:8080/api/categorias
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNlaXJvLWFwaSIsInN1YiI6ImNvbWVyY2lhbEBzaXN0ZW1hLmNvbSIsImV4cCI6MTc5MTkzMTE3Mn0.e3taU978a0iaeyBB-O0b9_SrLk1xJ7ecPvZgTTbIIao
+
+{
+  "nome": "Alimentação Usuário 2"
+}

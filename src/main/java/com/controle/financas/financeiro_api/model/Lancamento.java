@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@jakarta.persistence.EntityListeners(org.springframework.data.jpa.domain.support.AuditingEntityListener.class)
 public class Lancamento {
 
     @Id
@@ -90,4 +91,17 @@ public class Lancamento {
     @ManyToOne
     @JoinColumn(name = "centro_custo_id", nullable = true)
     private CentroCusto centroCusto;
+
+        // =======================================================================
+    //                       CAMPOS DE AUDITORIA AUTOMÁTICA
+    // =======================================================================
+
+    @jakarta.persistence.Column(name = "created_at", nullable = false, updatable = false)
+    @org.springframework.data.annotation.CreatedDate // O Spring injeta a data/hora exata do INSERT
+    private java.time.LocalDateTime dataCriacao;
+
+    @jakarta.persistence.Column(name = "updated_at")
+    @org.springframework.data.annotation.LastModifiedDate // O Spring atualiza sozinho a cada UPDATE
+    private java.time.LocalDateTime dataAtualizacao;
+
 }
