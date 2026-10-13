@@ -1,7 +1,7 @@
 ### Passo A: Criar a Conta de Luz "Em Aberto" (Não mexe no saldo)
 POST http://localhost:8080/api/lancamentos
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNlaXJvLWFwaSIsInN1YiI6ImNvbWVyY2lhbEBzaXN0ZW1hLmNvbSIsImV4cCI6MTc5MTUxMTA5MH0.fPepmjHA4BWUHWWZHyWdUAV0tLnnDJ_HP0J_KqCzPPk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNlaXJvLWFwaSIsInN1YiI6ImNvbWVyY2lhbEBzaXN0ZW1hLmNvbSIsImV4cCI6MTc5MTUxMjcxN30.mf52BJQ2Dez0I24QyJ-NZmLPrt1QRl_7mueCSg2bUQM
 
 {
   "descricao": "Conta de Luz de Outubro",
@@ -19,22 +19,24 @@ PUT http://localhost:8080/api/lancamentos/1/baixar
 ### Passo C: Realizar Transferência de Carteira (ID 1 para ID 2)
 POST http://localhost:8080/api/transferencias
 Content-Type: application/json
+Authorization: Bearer INDIQUE_AQUI_O_TOKEN_JWT_COPIADA_DO_LOGIN
 
 {
   "descricao": "Reserva Mensal para Poupança",
   "valor": 300.00,
-  "dataTransferencia": "2026-10-07",
-  "usuario": { "id": 1 },
+  "dataTransferencia": "2026-10-13",
   "contaOrigem": { "id": 1 },
   "contaDestino": { "id": 2 }
 }
+
 
 ###
 
 
 ### Passo D: Buscar Todos os Lançamentos do Sistema
 GET http://localhost:8080/api/lancamentos
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNlaXJvLWFwaSIsInN1YiI6ImNvbWVyY2lhbEBzaXN0ZW1hLmNvbSIsImV4cCI6MTc5MTQ3NjYwNH0.QjbYiH6M-3RS0ZjTxi0Yp84HJZbVSqRL4DKCyZLWhwY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNlaXJvLWFwaSIsInN1YiI6ImNvbWVyY2lhbEBzaXN0ZW1hLmNvbSIsImV4cCI6MTc5MTUxMjcxN30.mf52BJQ2Dez0I24QyJ-NZmLPrt1QRl_7mueCSg2bUQM
+
 
 ### Passo E: Buscar Lançamento Específico pelo ID
 GET http://localhost:8080/api/lancamentos/1
@@ -44,6 +46,8 @@ DELETE http://localhost:8080/api/lancamentos/1
 
 ### Passo G: Listar Todas as Contas Cadastradas (Nubank e Caixa)
 GET http://localhost:8080/api/contas
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNlaXJvLWFwaSIsInN1YiI6ImNvbWVyY2lhbEBzaXN0ZW1hLmNvbSIsImV4cCI6MTc5MTUxMjcxN30.mf52BJQ2Dez0I24QyJ-NZmLPrt1QRl_7mueCSg2bUQM
+
 
 ### Passo H: Listar Apenas as Categorias Principais (Habitação)
 GET http://localhost:8080/api/categorias/principais
@@ -104,4 +108,16 @@ Content-Type: application/json
 {
   "email": "comercial@sistema.com",
   "senha": "senhaSegura123"
+}
+
+### Passo P: Cadastrar uma Conta Nova para o Usuário Logado (Dono do Token)
+POST http://localhost:8080/api/contas
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNlaXJvLWFwaSIsInN1YiI6ImNvbWVyY2lhbEBzaXN0ZW1hLmNvbSIsImV4cCI6MTc5MTUxMjcxN30.mf52BJQ2Dez0I24QyJ-NZmLPrt1QRl_7mueCSg2bUQM
+
+{
+  "nome": "Banco Inter do Usu 2",
+  "tipoConta": "Corrente",
+  "saldoInicial": 750.00,
+  "javaMoeda": { "id": 1 }
 }

@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.controle.financas.financeiro_api.model.Conta;
 import com.controle.financas.financeiro_api.model.Movimentacao;
 import com.controle.financas.financeiro_api.model.Transferencia;
+import com.controle.financas.financeiro_api.model.Usuario;
 import com.controle.financas.financeiro_api.repository.ContaRepository;
 import com.controle.financas.financeiro_api.repository.MovimentacaoRepository;
 import com.controle.financas.financeiro_api.repository.TransferenciaRepository;
@@ -18,7 +19,6 @@ public class TransferenciaService {
     private final ContaRepository contaRepository;
     private final MovimentacaoRepository movimentacaoRepository;
 
-    // Injeção via construtor padrão de mercado
     public TransferenciaService(TransferenciaRepository transferenciaRepository, 
                                 ContaRepository contaRepository, 
                                 MovimentacaoRepository movimentacaoRepository) {
@@ -28,45 +28,49 @@ public class TransferenciaService {
     }
 
     /**
-     * REGRA DE NEGÓCIO CORE: Efetua uma transferência entre contas blindando os saldos
+     * REGRA DE NEGÓCIO MULTI-TENANT: Efetua uma transferência entre contas blindando os saldos
+     * e garantindo que o usuário só movimente contas que realmente pertencem a ele.
      */
     @Transactional
     public Transferencia transferir(Transferencia transferencia) {
         BigDecimal valor = transferencia.getValor();
 
-        // 1. Validação básica: Impede transferências com valor zero ou negativo
         if (valor.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("O valor da transferência deve ser maior que zero.");
         }
 
-        // 2. Busca as contas origem e destino atualizadas direto do banco de dados
-        Conta origem = contaRepository.findById(transferencia.getContaOrigem().getId())
+        org.springframework.security.core.Authentication auth = 
+            org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication();
+        Usuario usuarioLogado = (Usuario) auth.getPrincipal();
+
+        Conta origen = contaRepository.findById(transferencia.getContaOrigem().getId())
             .orElseThrow(() -> new IllegalArgumentException("Conta origem não encontrada."));
             
         Conta destino = contaRepository.findById(transferencia.getContaDestino().getId())
             .orElseThrow(() -> new IllegalArgumentException("Conta destino não encontrada."));
 
-        // 3. Validação Comercial: Impede transferir para a mesma conta
-        if (origem.getId().equals(destino.getId())) {
+        if (!origen.getUsuario().getId().equals(usuarioLogado.getId())) {
+            throw new org.springframework.security.access.AccessDeniedException("Acesso negado: A conta de origem não pertence ao seu usuário.");
+        }
+
+        if (origen.getId().equals(destino.getId())) {
             throw new IllegalArgumentException("A conta de origem não pode ser igual à conta de destino.");
         }
 
-        // 4. Atualiza os saldos bancários das entidades
-        origem.setSaldoAtual(origem.getSaldoAtual().subtract(valor));
+        transferencia.setUsuario(usuarioLogado);
+
+        origen.setSaldoAtual(origen.getSaldoAtual().subtract(valor));
         destino.setSaldoAtual(destino.getSaldoAtual().add(valor));
 
-        // 5. Salva as duas contas com os novos saldos na memória do banco
-        contaRepository.save(origem);
+        contaRepository.save(origen);
         contaRepository.save(destino);
 
-        // 6. Atualiza as referências completas dentro do objeto transferência e salva
-        transferencia.setContaOrigem(origem);
+        transferencia.setContaOrigem(origen);
         transferencia.setContaDestino(destino);
         Transferencia transferenciaSalva = transferenciaRepository.save(transferencia);
 
-        // 7. GATILHO DUPLO: Gera os dois registros independentes no Extrato Interno (Muitos-para-Um)
-        gerarMovimentacaoExtrato(origem, valor, "SAIDA", "Transferência enviada para " + destino.getNome(), transferenciaSalva);
-        gerarMovimentacaoExtrato(destino, valor, "ENTRADA", "Transferência recebida de " + origem.getNome(), transferenciaSalva);
+        gerarMovimentacaoExtrato(origen, valor, "SAIDA", "Transferência enviada para " + destino.getNome(), transferenciaSalva);
+        gerarMovimentacaoExtrato(destino, valor, "ENTRADA", "Transferência recebida de " + origen.getNome(), transferenciaSalva);
 
         return transferenciaSalva;
     }
@@ -81,10 +85,8 @@ public class TransferenciaService {
         movimento.setConta(conta);
         movimento.setTipoMovimentacao(tipo);
         movimento.setHistorico(historico);
-        movimento.setTransferencia(transf); // Amarração da chave estrangeira
+        movimento.setTransferencia(transf);
 
-        // Como transferências são movimentações de carteira (não envolvem compras comerciais),
-        // passamos referências nulas para Categoria e Centro de Custo neste fluxo interno.
         movimento.setCategoria(null);
         movimento.setCentroCusto(null);
 
