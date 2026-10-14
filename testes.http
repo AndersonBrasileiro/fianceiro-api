@@ -1,7 +1,7 @@
 ### Passo A: Criar a Conta de Luz "Em Aberto" (Não mexe no saldo)
 POST http://localhost:8080/api/lancamentos
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNlaXJvLWFwaSIsInN1YiI6ImNvbWVyY2lhbEBzaXN0ZW1hLmNvbSIsImV4cCI6MTc5MTkzMTE3Mn0.e3taU978a0iaeyBB-O0b9_SrLk1xJ7ecPvZgTTbIIao
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNlaXJvLWFwaSIsInN1YiI6ImNvbWVyY2lhbEBzaXN0ZW1hLmNvbSIsImV4cCI6MTc5MTkzNDM4Nn0.EfciewQJS59qSUENkdhc936JU7iJaFphi7O24RYTgJk
 
 {
   "descricao": "Conta de Luz de Outubro",
@@ -113,7 +113,7 @@ Content-Type: application/json
 ### Passo P: Cadastrar uma Conta Nova para o Usuário Logado (Dono do Token)
 POST http://localhost:8080/api/contas
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNlaXJvLWFwaSIsInN1YiI6ImNvbWVyY2lhbEBzaXN0ZW1hLmNvbSIsImV4cCI6MTc5MTkzMTE3Mn0.e3taU978a0iaeyBB-O0b9_SrLk1xJ7ecPvZgTTbIIao
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNlaXJvLWFwaSIsInN1YiI6ImNvbWVyY2lhbEBzaXN0ZW1hLmNvbSIsImV4cCI6MTc5MTkzNDM4Nn0.EfciewQJS59qSUENkdhc936JU7iJaFphi7O24RYTgJk
 
 {
   "nome": "Banco Inter do Usu 2",
@@ -154,7 +154,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNla
 ### Passo U: Criar Categoria Própria para o Usuário 2
 POST http://localhost:8080/api/categorias
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNlaXJvLWFwaSIsInN1YiI6ImNvbWVyY2lhbEBzaXN0ZW1hLmNvbSIsImV4cCI6MTc5MTkzMTE3Mn0.e3taU978a0iaeyBB-O0b9_SrLk1xJ7ecPvZgTTbIIao
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNlaXJvLWFwaSIsInN1YiI6ImNvbWVyY2lhbEBzaXN0ZW1hLmNvbSIsImV4cCI6MTc5MTkzNDM4Nn0.EfciewQJS59qSUENkdhc936JU7iJaFphi7O24RYTgJk
 
 {
   "nome": "Alimentação Usuário 2"

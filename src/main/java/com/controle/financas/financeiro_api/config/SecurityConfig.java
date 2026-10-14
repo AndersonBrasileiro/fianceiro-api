@@ -27,22 +27,25 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable()) // Desabilita proteção CSRF (padrão em APIs REST com JWT)
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // API sem guardar estado no servidor
-            .headers(headers -> headers.frameOptions(frame -> frame.disable())) // Mantém liberação para exibição do painel H2
-            .authorizeHttpRequests(auth -> auth
-                // REGRA 1: Libera o endpoint público do H2-Console para podermos analisar o banco em desenvolvimento
-                .requestMatchers("/h2-console/**").permitAll()
-                
-                // REGRA 2: Libera as futuras rotas públicas de Autenticação (Login e Cadastro de Usuário)
-                .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/auth/registrar").permitAll()
-                
-                // REGRA 3: Bloqueia qualquer outro endpoint comercial do sistema, exigindo token JWT válido
-                .anyRequest().authenticated()
-            )
-            // REGRA 4: Adiciona o nosso filtro customizado de validação JWT exatamente antes do filtro padrão do Spring
-            .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
+                // 👇 NOVA CONFIGURAÇÃO COMPATÍVEL COM MERCADO COMERCIAL (Libera CORS para as
+                // telas)
+                .cors(cors -> cors.configurationSource(request -> {
+                    var config = new org.springframework.web.cors.CorsConfiguration();
+                    config.setAllowedOrigins(java.util.List.of("*")); // Permite que qualquer origem acesse (ideal para
+                                                                      // desenvolvimento do MVP)
+                    config.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                    config.setAllowedHeaders(java.util.List.of("*"));
+                    return config;
+                }))
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .headers(headers -> headers.frameOptions(frame -> frame.disable()))
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/h2-console/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/registrar").permitAll()
+                        .anyRequest().authenticated())
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
@@ -51,12 +54,14 @@ public class SecurityConfig {
      * BEAN ADICIONAL: Configura o gerenciador de autenticação do Spring Security
      */
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
     /**
-     * BEAN ADICIONAL: Algoritmo de criptografia Bcrypt para salvar senhas de forma segura e irreversível no banco
+     * BEAN ADICIONAL: Algoritmo de criptografia Bcrypt para salvar senhas de forma
+     * segura e irreversível no banco
      */
     @Bean
     public PasswordEncoder passwordEncoder() {
