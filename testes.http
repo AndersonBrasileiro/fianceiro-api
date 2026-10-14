@@ -61,6 +61,7 @@ GET http://localhost:8080/api/movimentacoes/conta/1
 ### Passo K: Cadastrar Receita Futura EM ABERTO (Salário)
 POST http://localhost:8080/api/lancamentos
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNlaXJvLWFwaSIsInN1YiI6ImNvbWVyY2lhbEBzaXN0ZW1hLmNvbSIsImV4cCI6MTc5MjAxMDYyNH0.22jAuxg7MasoFpDakATuzmiDifV7QaJJZQ-eS2exyYE
 
 {
   "descricao": "Previsão de Recebimento de Salário",
@@ -68,14 +69,14 @@ Content-Type: application/json
   "tipoLancamento": "RECEITA",
   "dataVencimento": "2026-11-05",
   "pago": false,
-  "usuario": { "id": 1 },
-  "conta": { "id": 1 },
+  "conta": { "id": 3 },
   "categoria": { "id": 2 }
 }
 
 ### Passo L: Cadastrar Despesa Futura EM ABERTO (Internet)
 POST http://localhost:8080/api/lancamentos
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNlaXJvLWFwaSIsInN1YiI6ImNvbWVyY2lhbEBzaXN0ZW1hLmNvbSIsImV4cCI6MTc5MjAxNDUxOX0.FpC4xuO3vsPGdtsURf1o8UH5hyRjbBs3IRNmDOGCrjA
 
 {
   "descricao": "Fatura de Internet Novembro",
@@ -83,10 +84,10 @@ Content-Type: application/json
   "tipoLancamento": "DESPESA",
   "dataVencimento": "2026-11-10",
   "pago": false,
-  "usuario": { "id": 1 },
-  "conta": { "id": 1 },
+  "conta": { "id": 3 },
   "categoria": { "id": 2 }
 }
+
 
 ### Passo M: Consultar os Dados Consolidados do Dashboard do Usuário 1
 GET http://localhost:8080/api/dashboard/usuario/1
@@ -113,7 +114,7 @@ Content-Type: application/json
 ### Passo P: Cadastrar uma Conta Nova para o Usuário Logado (Dono do Token)
 POST http://localhost:8080/api/contas
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNlaXJvLWFwaSIsInN1YiI6ImNvbWVyY2lhbEBzaXN0ZW1hLmNvbSIsImV4cCI6MTc5MTkzNDM4Nn0.EfciewQJS59qSUENkdhc936JU7iJaFphi7O24RYTgJk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaW5hbmNlaXJvLWFwaSIsInN1YiI6ImNvbWVyY2lhbEBzaXN0ZW1hLmNvbSIsImV4cCI6MTc5MjAxMDYyNH0.22jAuxg7MasoFpDakATuzmiDifV7QaJJZQ-eS2exyYE
 
 {
   "nome": "Banco Inter do Usu 2",
