@@ -1,6 +1,5 @@
 package com.controle.financas.financeiro_api.controller;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.controle.financas.financeiro_api.model.Categoria;
@@ -9,32 +8,26 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/categorias")
+@CrossOrigin(origins = "*")
 public class CategoriaController {
 
-    private final CategoriaService javaCategoriaService;
+    private final CategoriaService categoriaService;
 
     public CategoriaController(CategoriaService categoriaService) {
-        this.javaCategoriaService = categoriaService;
+        this.categoriaService = categoriaService;
     }
 
+    // 🌟 ATUALIZADO: Agora aceita filtrar na URL ?tipo=DESPESA ou ?tipo=RECEITA
     @GetMapping
-    public ResponseEntity<List<Categoria>> buscarTodas() {
-        return ResponseEntity.ok(javaCategoriaService.listarTodas());
-    }
-
-    @GetMapping("/principais")
-    public ResponseEntity<List<Categoria>> buscarPrincipais() {
-        return ResponseEntity.ok(javaCategoriaService.listarCategoriasPrincipais());
-    }
-
-    @GetMapping("/pai/{paiId}/subcategorias")
-    public ResponseEntity<List<Categoria>> buscarSubcategorias(@PathVariable Long paiId) {
-        return ResponseEntity.ok(javaCategoriaService.listarSubcategorias(paiId));
+    public ResponseEntity<List<Categoria>> listar(@RequestParam(value = "tipo", required = false) String tipo) {
+        if (tipo != null) {
+            return ResponseEntity.ok(categoriaService.listarPorTipo(tipo));
+        }
+        return ResponseEntity.ok(categoriaService.listarTodas());
     }
 
     @PostMapping
     public ResponseEntity<Categoria> criar(@RequestBody Categoria categoria) {
-        Categoria novaCategoria = javaCategoriaService.salvar(categoria);
-        return ResponseEntity.status(HttpStatus.CREATED).body(novaCategoria);
+        return ResponseEntity.ok(categoriaService.salvar(categoria));
     }
 }

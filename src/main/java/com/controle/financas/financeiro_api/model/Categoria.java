@@ -26,8 +26,11 @@ public class Categoria {
     @Column(nullable = false, length = 100)
     private String nome;
 
+    // 🌟 NOVO CAMPO: Identifica se a categoria pertence ao fluxo de RECEITA ou DESPESA
+    @Column(nullable = false, length = 20)
+    private String tipo;
+
     // AUTO-RELACIONAMENTO: Muitas subcategorias pertencem a uma Categoria Pai
-    // Se for null, significa que ela é uma categoria principal/macro.
     @ManyToOne
     @JoinColumn(name = "categoria_pai_id", nullable = true)
     private Categoria categoriaPai;

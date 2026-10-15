@@ -19,6 +19,11 @@ public class CategoriaService {
         return categoriaRepository.findAll();
     }
 
+    // 🌟 NOVO: Regra de negócio para listar categorias separadas por tipo
+    public List<Categoria> listarPorTipo(String tipo) {
+        return categoriaRepository.findByTipo(tipo.toUpperCase());
+    }
+
     public List<Categoria> listarCategoriasPrincipais() {
         return categoriaRepository.findByCategoriaPaiIsNull();
     }

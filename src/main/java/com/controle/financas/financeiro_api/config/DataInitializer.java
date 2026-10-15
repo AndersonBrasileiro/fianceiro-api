@@ -12,7 +12,7 @@ import com.controle.financas.financeiro_api.repository.ContaRepository;
 import com.controle.financas.financeiro_api.repository.MoedaRepository;
 import com.controle.financas.financeiro_api.repository.UsuarioRepository;
 
-@Component // Diz ao Spring para gerenciar e executar esta classe automaticamente
+//@Component // Diz ao Spring para gerenciar e executar esta classe automaticamente
 public class DataInitializer implements CommandLineRunner {
 
     private final UsuarioRepository usuarioRepository;
