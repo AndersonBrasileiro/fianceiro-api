@@ -26,7 +26,7 @@ public class Categoria {
     @Column(nullable = false, length = 100)
     private String nome;
 
-    // 🌟 NOVO CAMPO: Identifica se a categoria pertence ao fluxo de RECEITA ou DESPESA
+    // 🌟 Identifica se a categoria pertence ao fluxo de RECEITA ou DESPESA
     @Column(nullable = false, length = 20)
     private String tipo;
 
@@ -34,4 +34,9 @@ public class Categoria {
     @ManyToOne
     @JoinColumn(name = "categoria_pai_id", nullable = true)
     private Categoria categoriaPai;
+
+    // 🌟 NOVO CAMPO DE ISOLAMENTO: Vincula a categoria ao usuário dono da licença
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
 }

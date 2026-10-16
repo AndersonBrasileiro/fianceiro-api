@@ -15,21 +15,24 @@ public class CategoriaService {
         this.categoriaRepository = categoriaRepository;
     }
 
-    public List<Categoria> listarTodas() {
-        return categoriaRepository.findAll();
+    // 🌟 ATUALIZADO: Filtra a listagem geral trazendo apenas o plano de contas do usuário logado
+    public List<Categoria> listarTodasPorUsuario(Long usuarioId) {
+        return categoriaRepository.findByUsuarioId(usuarioId);
     }
 
-    // 🌟 NOVO: Regra de negócio para listar categorias separadas por tipo
-    public List<Categoria> listarPorTipo(String tipo) {
-        return categoriaRepository.findByTipo(tipo.toUpperCase());
+    // 🌟 ATUALIZADO: Busca categorias por tipo isolando por usuário
+    public List<Categoria> listarPorTipoEUsuario(String tipo, Long usuarioId) {
+        return categoriaRepository.findByTipoAndUsuarioId(tipo.toUpperCase(), usuarioId);
     }
 
-    public List<Categoria> listarCategoriasPrincipais() {
-        return categoriaRepository.findByCategoriaPaiIsNull();
+    // 🌟 ATUALIZADO: Busca categorias principais isolando por usuário
+    public List<Categoria> listarCategoriasPrincipaisPorUsuario(Long usuarioId) {
+        return categoriaRepository.findByCategoriaPaiIsNullAndUsuarioId(usuarioId);
     }
 
-    public List<Categoria> listarSubcategorias(Long paiId) {
-        return categoriaRepository.findByCategoriaPaiId(paiId);
+    // 🌟 ATUALIZADO: Busca subcategorias isolando por usuário
+    public List<Categoria> listarSubcategoriasPorUsuario(Long paiId, Long usuarioId) {
+        return categoriaRepository.findByCategoriaPaiIdAndUsuarioId(paiId, usuarioId);
     }
 
     @Transactional

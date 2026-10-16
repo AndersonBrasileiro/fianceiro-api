@@ -6,12 +6,13 @@ import java.util.List;
 
 public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
     
-    // 🌟 NOVO: Filtra as categorias pelo tipo (DESPESA ou RECEITA)
-    List<Categoria> findByTipo(String tipo);
+    // 🌟 FILTROS ATUALIZADOS: Todos agora exigem o ID do usuário para isolar os dados
     
-    // Retorna apenas as categorias principais (onde a categoria pai é nula)
-    List<Categoria> findByCategoriaPaiIsNull();
+    List<Categoria> findByUsuarioId(Long usuarioId);
     
-    // Retorna as subcategorias pertencentes a uma categoria pai específica
-    List<Categoria> findByCategoriaPaiId(Long categoriaPaiId);
+    List<Categoria> findByTipoAndUsuarioId(String tipo, Long usuarioId);
+    
+    List<Categoria> findByCategoriaPaiIsNullAndUsuarioId(Long usuarioId);
+    
+    List<Categoria> findByCategoriaPaiIdAndUsuarioId(Long categoriaPaiId, Long usuarioId);
 }
