@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,9 +26,14 @@ public class Moeda {
     @Column(nullable = false, length = 50) // Ex: Real, Dólar, Euro
     private String nome;
 
-    @Column(nullable = false, unique = true, length = 3) // Ex: BRL, USD, EUR
+    @Column(nullable = false, length = 3) // Ex: BRL, USD, EUR
     private String codigoIso;
 
     @Column(nullable = false, length = 5) // Ex: R$, $, €
     private String simbolo;
+
+    // 🌟 NOVO CAMPO DE ISOLAMENTO: Vincula a moeda de forma física ao usuário dono da licença
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
 }

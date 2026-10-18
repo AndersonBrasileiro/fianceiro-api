@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.controle.financas.financeiro_api.dto.AuthDTO;
 import com.controle.financas.financeiro_api.dto.RegistroDTO;
+import com.controle.financas.financeiro_api.model.Moeda;
 import com.controle.financas.financeiro_api.model.Usuario;
+import com.controle.financas.financeiro_api.repository.MoedaRepository;
 import com.controle.financas.financeiro_api.repository.UsuarioRepository;
 
 @Service
@@ -14,15 +16,19 @@ public class AuthService {
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
+    // 🌟 INJEÇÃO ADICIONAL: Permite salvar a moeda diretamente no cadastro do usuário
+    private final MoedaRepository moedaRepository;
 
-    public AuthService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder, TokenService tokenService) {
+    public AuthService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder, 
+                       TokenService tokenService, MoedaRepository moedaRepository) {
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
         this.tokenService = tokenService;
+        this.moedaRepository = moedaRepository;
     }
 
-    /**
-     * REGRA DE NEGÓCIO: Registra um novo usuário criptografando a senha com Bcrypt
+     /**
+     * REGRA DE NEGÓCIO: Registra um novo usuário e popula a moeda padrão de forma automática
      */
     @Transactional
     public Usuario registrar(RegistroDTO dados) {
@@ -39,9 +45,20 @@ public class AuthService {
         String senhaCriptografada = passwordEncoder.encode(dados.getSenha());
         novoUsuario.setSenha(senhaCriptografada);
 
-        return usuarioRepository.save(novoUsuario);
-    }
+        // 1. Salva o usuário no banco de dados primeiro para gerar o ID legítimo
+        Usuario usuarioSalvo = usuarioRepository.save(novoUsuario);
 
+        // 2. 🌟 CRIAÇÃO DA MOEDA ISOLADA: Salva de forma limpa sem interferir no contexto de segurança
+        Moeda moedaPadrao = new Moeda();
+        moedaPadrao.setNome("Real");
+        moedaPadrao.setCodigoIso("BRL");
+        moedaPadrao.setSimbolo("R$");
+        moedaPadrao.setUsuario(usuarioSalvo); // Amarra ao novo dono da licença
+
+        moedaRepository.save(moedaPadrao);
+
+        return usuarioSalvo;
+    }
     /**
      * REGRA DE NEGÓCIO: Valida as credenciais e gera o Token JWT caso o login esteja correto
      */
