@@ -2,6 +2,7 @@ package com.controle.financas.financeiro_api.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import com.controle.financas.financeiro_api.service.LancamentoService;
 
 @RestController // Diz ao Spring que esta classe vai expor endpoints do tipo REST (JSON)
 @RequestMapping("/api/lancamentos") // Define a rota base para este controlador
+@CrossOrigin(origins = "*", allowedHeaders = "*") 
 public class LancamentoController {
 
     private final LancamentoService lancamentoService;

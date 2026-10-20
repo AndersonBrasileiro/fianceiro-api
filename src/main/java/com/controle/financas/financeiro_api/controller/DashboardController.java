@@ -9,7 +9,7 @@ import com.controle.financas.financeiro_api.service.DashboardService;
 
 @RestController
 @RequestMapping("/api/dashboard")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*") 
 public class DashboardController {
 
     private final DashboardService dashboardService;

@@ -1,6 +1,7 @@
 package com.controle.financas.financeiro_api.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/movimentacoes")
+@CrossOrigin(origins = "*", allowedHeaders = "*") 
 public class MovimentacaoController {
 
     private final MovimentacaoService movimentacaoService;

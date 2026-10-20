@@ -9,6 +9,7 @@ import com.controle.financas.financeiro_api.service.CentroCustoService;
 
 @RestController
 @RequestMapping("/api/centros-custo")
+@CrossOrigin(origins = "*", allowedHeaders = "*") 
 public class CentroCustoController {
 
     private final CentroCustoService centroCustoService;

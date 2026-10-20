@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/contas")
-@CrossOrigin(origins = "*") // Garante o acesso do frontend livre de erros de CORS
+@CrossOrigin(origins = "*", allowedHeaders = "*") 
 public class ContaController {
 
     private final ContaService contaService;
