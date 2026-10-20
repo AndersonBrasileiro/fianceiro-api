@@ -12,7 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
+@Entity 
 @Table(name = "tb_favorecido")
 @Data
 @NoArgsConstructor
